@@ -6,7 +6,7 @@ function App() {
   const [lista, setLista] = useState([]);
 
   const agregarALista = (nuevoItem) => {
-    setLista([...lista, nuevoItem]);
+    setLista([nuevoItem, ...lista]);
   };
 
   const eliminarItem = (indexAEliminar) => {
@@ -14,10 +14,18 @@ function App() {
     setLista(nuevaLista);
   };
 
-  const editarItem = (indexAEditar, nuevoTexto) => {
+  const editarItem = (indexAEditar, nuevoTexto, nuevaCantidad) => {
     const nuevaLista = [...lista];
-    nuevaLista[indexAEditar] = nuevoTexto;
+    nuevaLista[indexAEditar].nombre = nuevoTexto;
+    nuevaLista[indexAEditar].cantidad = nuevaCantidad;
     setLista(nuevaLista);
+  };
+
+  const toggleComprado = (index) => {
+    const nuevaLista = [...lista];
+    nuevaLista[index].comprado = !nuevaLista[index].comprado;
+    const ordenada = [...nuevaLista].sort((a, b) => a.comprado - b.comprado);
+    setLista(ordenada);
   };
 
   return (
@@ -29,9 +37,10 @@ function App() {
           <Item
             key={index}
             index={index}
-            nombre={item}
+            item={item}
             onEliminar={eliminarItem}
             onEditar={editarItem}
+            onToggleComprado={toggleComprado}
           />
         ))}
       </ul>
